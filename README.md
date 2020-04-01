@@ -5,3 +5,4 @@ ZTIAP hra Paratrooper - Samuel Piják
 - premenovanie suboru index.html na paratrooper.html
 - main.js: vytvorenie triedy Paratrooper; vymazanie zbytocneho kodu; rozpohybovanie postavy paratrooper; pridanie obrazku crosshair.png do dir img
 - vytvorenie triedy Heli
+- snaha vytvorit funkciu na detekovanie suradnic mysky na canvase
