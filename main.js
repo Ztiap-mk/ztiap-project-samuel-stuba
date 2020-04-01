@@ -57,6 +57,18 @@ class Heli {
 
 para = new Paratrooper()
 heli = new Heli()
+
+function mouse(event) {
+  var canBoundX = canvas.offsetLeft;
+  var canBoundY = canvas.offsetTop;
+  return {
+    x: event.clientX - canBoundX,
+    y: event.clientY - canBoundY
+  };
+}
+
+console.log(mouse(canvas, event))
+
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   para.draw()
