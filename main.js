@@ -28,11 +28,41 @@ class Paratrooper {
   }
 }
 
+class Heli {
+  constructor() {
+    this.canvas = document.getElementById("canvas");
+    this.image = new Image();
+    this.image.src = "img/heli.png";
+
+    this.x = canvas.width
+    this.y = 10
+  }
+
+  move() {
+    const canvas = this.canvas;
+    if (this.x < 0) {
+      this.x += canvas.width
+    }
+
+    this.x -= 5
+  }
+
+  draw() {
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.drawImage(this.image, 0, 0, 157, 45)
+    ctx.restore()
+  }
+}
+
 para = new Paratrooper()
+heli = new Heli()
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   para.draw()
   para.move()
+  heli.draw()
+  heli.move()
   requestAnimationFrame(animate)
 }
 animate()
