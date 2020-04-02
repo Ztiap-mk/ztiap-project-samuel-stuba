@@ -61,6 +61,9 @@ heli = new Heli();
 cross = new Image();
 cross.src = "img/crosshair.png";
 
+bg = new Image();
+bg.src = "img/background.png";
+
 function crosshair(x, y) {
   ctx.save()
   ctx.translate(x, y)
@@ -68,7 +71,7 @@ function crosshair(x, y) {
   ctx.restore()
 }
 
-window.onmousemove = function(event) {
+canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
   console.log(x, y);
@@ -76,6 +79,7 @@ window.onmousemove = function(event) {
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.drawImage(bg, 0, 0)
   para.draw()
   para.move()
   heli.draw()

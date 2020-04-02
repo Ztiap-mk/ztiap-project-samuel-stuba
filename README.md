@@ -7,3 +7,4 @@ ZTIAP hra Paratrooper - Samuel Piják
 - vytvorenie triedy Heli
 - snaha vytvorit funkciu na detekovanie suradnic mysky na canvase
 - funkcia onmousemove dorobena, len ju treba doladit aby vykreslovala crosshair na pozicii kurzora mysi
+- vytvorenie suborov menu - menu.html odkazuje na menu.js v ktorom sa vykresluje obdlznik s textom "Play Game" reagujuci na kliknutie mysi - kliknutie na Play Game otvori subor paratrooper.html; v main.js som pridal vykreslovanie pozadia hry
