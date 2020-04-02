@@ -66,12 +66,19 @@ class Player {
 
     this.x = canvas.width/2
     this.y = canvas.height-220
+    this.game = true
   }
 
   move(up, down, left, right) {
     const canvas = this.canvas;
     if (this.x < 0 || this.x > canvas.width || this.y > canvas.height || this.y < 0) {
-
+      this.game = false;
+      ctx.fillStyle = "red";
+      ctx.fillRect(150, 200, 100, 50);
+      ctx.fillStyle = "black";
+      ctx.font = "20px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("Play Again", 200, 230);
     }
     this.x -= left;
     this.x += right;
@@ -97,6 +104,8 @@ cross.src = "img/crosshair.png";
 bg = new Image();
 bg.src = "img/background.png";
 
+//mys
+
 function crosshair(x, y) {
   ctx.save()
   ctx.translate(x, y)
@@ -104,12 +113,19 @@ function crosshair(x, y) {
   ctx.restore()
 };
 
-//mys
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
   console.log(x, y);
 };
+
+canvas.onclick = function(event) {
+  var x = event.pageX - canvas.offsetLeft
+  var y = event.pageY - canvas.offsetTop
+  if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
+    window.open("paratrooper.html")
+  }
+}
 
 //klavesnica
 window.onkeydown = function(event) {
@@ -133,6 +149,8 @@ function animate() {
   heli.draw()
   heli.move()
   player.draw()
-  requestAnimationFrame(animate)
+  if (player.game){
+    requestAnimationFrame(animate)
+  }
 };
 animate();
