@@ -6,3 +6,4 @@ ZTIAP hra Paratrooper - Samuel Piják
 - main.js: vytvorenie triedy Paratrooper; vymazanie zbytocneho kodu; rozpohybovanie postavy paratrooper; pridanie obrazku crosshair.png do dir img
 - vytvorenie triedy Heli
 - snaha vytvorit funkciu na detekovanie suradnic mysky na canvase
+- funkcia onmousemove dorobena, len ju treba doladit aby vykreslovala crosshair na pozicii kurzora mysi

@@ -55,19 +55,24 @@ class Heli {
   }
 }
 
-para = new Paratrooper()
-heli = new Heli()
+para = new Paratrooper();
+heli = new Heli();
 
-function mouse(event) {
-  var canBoundX = canvas.offsetLeft;
-  var canBoundY = canvas.offsetTop;
-  return {
-    x: event.clientX - canBoundX,
-    y: event.clientY - canBoundY
-  };
+cross = new Image();
+cross.src = "img/crosshair.png";
+
+function crosshair(x, y) {
+  ctx.save()
+  ctx.translate(x, y)
+  ctx.drawImage(cross, 0, 0, 100, 100)
+  ctx.restore()
 }
 
-console.log(mouse(canvas, event))
+window.onmousemove = function(event) {
+  var x = event.clientX - canvas.offsetLeft;
+  var y = event.clientY - canvas.offsetTop;
+  console.log(x, y);
+}
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
