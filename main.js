@@ -1,6 +1,8 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
+var keys = {};
+
 class Paratrooper {
   constructor() {
     this.canvas = document.getElementById("canvas");
@@ -69,14 +71,26 @@ function crosshair(x, y) {
   ctx.translate(x, y)
   ctx.drawImage(cross, 0, 0, 100, 100)
   ctx.restore()
-}
+};
 
+//mys
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
   console.log(x, y);
-}
+};
 
+//klavesnica
+window.onkeydown = function(event) {
+  keys[event.keyCode] = true;
+  console.log(keys);
+};
+
+window.onkeyup = function(event) {
+  keys[event.keyCode] = false;
+};
+
+//renderovanie objektov
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.drawImage(bg, 0, 0)
@@ -85,5 +99,5 @@ function animate() {
   heli.draw()
   heli.move()
   requestAnimationFrame(animate)
-}
-animate()
+};
+animate();
