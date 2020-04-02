@@ -2,6 +2,7 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 var keys = {};
+var objects = {};
 
 class Paratrooper {
   constructor() {
@@ -57,8 +58,38 @@ class Heli {
   }
 }
 
+class Player {
+  constructor() {
+    this.canvas = document.getElementById("canvas");
+    this.image = new Image();
+    this.image.src = "img/base.png";
+
+    this.x = canvas.width/2
+    this.y = canvas.height-220
+  }
+
+  move(up, down, left, right) {
+    const canvas = this.canvas;
+    if (this.x < 0 || this.x > canvas.width || this.y > canvas.height || this.y < 0) {
+
+    }
+    this.x -= left;
+    this.x += right;
+    this.y += down;
+    this.y -= up;
+  }
+
+  draw() {
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.drawImage(this.image, 0, 0)
+    ctx.restore()
+  }
+}
+
 para = new Paratrooper();
 heli = new Heli();
+player = new Player();
 
 cross = new Image();
 cross.src = "img/crosshair.png";
@@ -83,7 +114,10 @@ canvas.onmousemove = function(event) {
 //klavesnica
 window.onkeydown = function(event) {
   keys[event.keyCode] = true;
-  console.log(keys);
+  if (keys[37]) player.move(0, 0, 5, 0);
+  if (keys[39]) player.move(0, 0, 0, 5);
+  if (keys[38]) player.move(5, 0, 0, 0);
+  if (keys[40]) player.move(0, 5, 0, 0);
 };
 
 window.onkeyup = function(event) {
@@ -98,6 +132,7 @@ function animate() {
   para.move()
   heli.draw()
   heli.move()
+  player.draw()
   requestAnimationFrame(animate)
 };
 animate();
