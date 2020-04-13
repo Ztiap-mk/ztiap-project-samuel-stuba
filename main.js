@@ -4,6 +4,8 @@ var ctx = canvas.getContext("2d");
 var keys = {};
 var objects = {};
 
+var gamestate = "game";
+
 class Paratrooper {
   constructor() {
     this.canvas = document.getElementById("canvas");
@@ -72,13 +74,8 @@ class Player {
   move(up, down, left, right) {
     const canvas = this.canvas;
     if (this.x < 0 || this.x > canvas.width || this.y > canvas.height || this.y < 0) {
+      gamestate = "gameover";
       this.game = false;
-      ctx.fillStyle = "red";
-      ctx.fillRect(150, 200, 100, 50);
-      ctx.fillStyle = "black";
-      ctx.font = "20px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("Play Again", 200, 230);
     }
     this.x -= left;
     this.x += right;
@@ -107,6 +104,7 @@ bg.src = "img/background.png";
 //mys
 
 function crosshair(x, y) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.save()
   ctx.translate(x, y)
   ctx.drawImage(cross, 0, 0, 100, 100)
@@ -116,7 +114,7 @@ function crosshair(x, y) {
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
-  console.log(x, y);
+  crosshair(x, y);
 };
 
 canvas.onclick = function(event) {
@@ -142,15 +140,29 @@ window.onkeyup = function(event) {
 
 //renderovanie objektov
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.drawImage(bg, 0, 0)
-  para.draw()
-  para.move()
-  heli.draw()
-  heli.move()
-  player.draw()
-  if (player.game){
-    requestAnimationFrame(animate)
+  if (gamestate == "game"){
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.drawImage(bg, 0, 0)
+    para.draw()
+    para.move()
+    heli.draw()
+    heli.move()
+    player.draw()
+    if (player.game){
+      requestAnimationFrame(animate)
+    }
+  }
+  if (gamestate == "gameover") {
+    gameover()
   }
 };
+
+function gameover() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(150, 200, 100, 50);
+  ctx.fillStyle = "black";
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("Play Again", 200, 230);
+}
 animate();
