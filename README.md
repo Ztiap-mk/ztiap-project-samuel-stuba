@@ -13,3 +13,4 @@ ZTIAP hra Paratrooper - Samuel Piják
 - ak sa Player pohne na kraj canvasu tak sa zastavi animaci a vykresli sa tlacidlo "Play Again", ktore znova hru spusti
 - odstranenie menu.html ->v menu.js sa bude odohravat hlavne menu hry z ktoreho sa bude spustat hra, riesit nastavenia hry a pod.; menu.html som vymazal aby som nemusel prepinanie obrazoviek riesit cez viac html suborov ale cez premennu gamestate, ktoru som si vytvoril. Funkcia ktora vykresluje objekty bude kontrolovat v akom stave sa nachadza gamestate a podla toho bude vykreslovat objekty. Default nastavenie gamestate je "menu"; dalej bude kolovat medzi "game","pause","gameover","settings";
 - prerobenie vykreslovanie kurzora mysi (ktory stale nefunguje pocas hry) pomocou triedy
+- vytvorenie novych gamestatov; vytvorenie triedy Button, ktora vytvara buttony

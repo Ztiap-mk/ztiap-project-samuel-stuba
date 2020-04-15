@@ -4,7 +4,29 @@ var ctx = canvas.getContext("2d");
 var keys = {};
 var objects = {};
 
-var gamestate = "game";
+var gamestate = "menu";
+
+class Button {
+  constructor(x, y, width, height, color, text) {
+    this.canvas = document.getElementById("canvas");
+
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.color = color
+    this.text = text
+  }
+  draw() {
+    ctx.fillStyle = this.color
+    ctx.fillRect(this.x, this.y, this.width, this.height)
+
+    ctx.fillStyle = "black";
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(this.text, this.x+(this.width/2), this.y+(this.height/2));
+  }
+}
 
 class Paratrooper {
   constructor() {
@@ -111,10 +133,12 @@ class Crosshair {
 
     this.width = width;
     this.height = height;
+    this.switch = true;
   }
 
   draw(x, y) {
     ctx.save()
+    //ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(this.image, x, y, this.width, this.height)
     ctx.restore()
   }
@@ -125,7 +149,9 @@ cross = new Crosshair(42,42);
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
-  cross.draw(x-20, y-20);
+  if (cross.switch) {
+    cross.draw(x-20, y-20);
+  }
 };
 
 canvas.onclick = function(event) {
@@ -152,6 +178,18 @@ window.onkeyup = function(event) {
 
 //renderovanie objektov
 function animate() {
+  if (gamestate == "menu") {
+    play = new Button(150, 200, 100, 50, "red", "Play Game")
+    settings = new Button(150, 300, 100, 50, "red", "Settings")
+    play.draw()
+    settings.draw()
+  }
+  if (gamestate == "settings") {
+    crosshair = new Button(150, 200, 100, 50, "red", "Crosshair: On")
+    sound = new Button(150, 300, 100, 50, "red", "Sounds: On")
+    crosshair.draw()
+    sound.draw()
+  }
   if (gamestate == "game"){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(bg, 0, 0)
