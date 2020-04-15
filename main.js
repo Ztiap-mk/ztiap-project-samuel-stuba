@@ -90,38 +90,50 @@ class Player {
     ctx.restore()
   }
 }
+//objekty (zatial)
 
 para = new Paratrooper();
 heli = new Heli();
 player = new Player();
 
-cross = new Image();
-cross.src = "img/crosshair.png";
+//cross = new Image();
+//cross.src = "img/crosshair.png";
 
 bg = new Image();
 bg.src = "img/background.png";
 
 //mys
+class Crosshair {
+  constructor(width, height) {
+    this.canvas = document.getElementById("canvas");
+    this.image = new Image();
+    this.image.src = "img/crosshair.png";
 
-function crosshair(x, y) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.save()
-  ctx.translate(x, y)
-  ctx.drawImage(cross, 0, 0, 100, 100)
-  ctx.restore()
-};
+    this.width = width;
+    this.height = height;
+  }
+
+  draw(x, y) {
+    ctx.save()
+    ctx.drawImage(this.image, x, y, this.width, this.height)
+    ctx.restore()
+  }
+}
+
+cross = new Crosshair(42,42);
 
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
-  crosshair(x, y);
+  cross.draw(x-20, y-20);
 };
 
 canvas.onclick = function(event) {
   var x = event.pageX - canvas.offsetLeft
   var y = event.pageY - canvas.offsetTop
   if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
-    window.open("paratrooper.html")
+    gamestate = "game"
+    animate()
   }
 }
 
