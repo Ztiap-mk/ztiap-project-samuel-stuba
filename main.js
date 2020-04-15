@@ -4,7 +4,7 @@ var ctx = canvas.getContext("2d");
 var keys = {};
 var objects = {};
 
-var gamestate = "settings";
+var gamestate = "menu";
 
 class Button {
   constructor(x, y, width, height, color, text) {
@@ -157,9 +157,35 @@ canvas.onmousemove = function(event) {
 canvas.onclick = function(event) {
   var x = event.pageX - canvas.offsetLeft
   var y = event.pageY - canvas.offsetTop
-  if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
-    gamestate = "game"
-    animate()
+
+  if (gamestate == "gameover")
+  {
+    if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
+      gamestate = "game"
+      animate()
+    }
+  }
+
+  if (gamestate == "menu")
+  {
+    if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
+      gamestate = "game"
+      animate()
+    }
+    if ((x >= 150 && x <= 150 + 100) && (y >= 300 && y <= 300 + 50)) {
+      gamestate = "settings"
+      animate()
+    }
+  }
+
+  if (gamestate == "settings")
+  {
+    if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
+      cross.switch = false
+    }
+    if ((x >= 150 && x <= 150 + 100) && (y >= 300 && y <= 300 + 50)) {
+      heliSound.stop()
+    }
   }
 }
 
@@ -183,6 +209,7 @@ function sound(src) {
     this.sound.setAttribute("preload", "auto");
     this.sound.setAttribute("controls", "none");
     this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
     this.play = function(){
         this.sound.play();
     }
@@ -191,7 +218,8 @@ function sound(src) {
     }
 }
 
-heli_sound = new sound("sounds/helicopter.wav")
+heliSound = new sound("sounds/helicopter.wav");
+
 
 //renderovanie objektov
 function animate() {
@@ -208,6 +236,7 @@ function animate() {
     sound.draw()
   }
   if (gamestate == "game"){
+    heliSound.play();
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(bg, 0, 0)
     para.draw()

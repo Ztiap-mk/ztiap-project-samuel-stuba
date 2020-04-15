@@ -16,3 +16,4 @@ ZTIAP hra Paratrooper - Samuel Piják
 - vytvorenie novych gamestatov; vytvorenie triedy Button, ktora vytvara buttony
 - pridanie suboru so zvukmi; nova funkcia na tvorenie zvukov
 - odstranenie menu.js
+- drevorubacske prepinanie obrazoviek a vypinanie zvukov
