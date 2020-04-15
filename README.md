@@ -15,3 +15,4 @@ ZTIAP hra Paratrooper - Samuel Piják
 - prerobenie vykreslovanie kurzora mysi (ktory stale nefunguje pocas hry) pomocou triedy
 - vytvorenie novych gamestatov; vytvorenie triedy Button, ktora vytvara buttony
 - pridanie suboru so zvukmi; nova funkcia na tvorenie zvukov
+- odstranenie menu.js
