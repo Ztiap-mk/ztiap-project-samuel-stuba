@@ -4,7 +4,7 @@ var ctx = canvas.getContext("2d");
 var keys = {};
 var objects = {};
 
-var gamestate = "menu";
+var gamestate = "settings";
 
 class Button {
   constructor(x, y, width, height, color, text) {
@@ -175,6 +175,23 @@ window.onkeydown = function(event) {
 window.onkeyup = function(event) {
   keys[event.keyCode] = false;
 };
+
+//zvuky
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
+
+heli_sound = new sound("sounds/helicopter.wav")
 
 //renderovanie objektov
 function animate() {
