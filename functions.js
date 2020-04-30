@@ -36,7 +36,16 @@ function animate() {
       }
     }
 
-    //player.draw()
+    var dx = cross_x-turret.x,
+    dy = cross_y-turret.y
+    otoc = Math.atan2(dy, dx)+1.5
+
+    console.log(otoc)
+
+    turret.draw(otoc)
+    player.draw()
+    cross.draw(cross_x-10, cross_y-10)
+
     if (player.game){
       requestAnimationFrame(animate)
     }

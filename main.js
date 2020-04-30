@@ -5,6 +5,8 @@ var keys = {};
 var objects = [];
 var paratroopers = [];
 var time = 0;
+var cross_x = 0
+var cross_y = 0
 
 var gamestate = "game";
 
@@ -91,27 +93,35 @@ class Player {
     this.image = new Image();
     this.image.src = "img/base.png";
 
-    this.x = canvas.width/2
-    this.y = canvas.height-220
+    this.x = (canvas.width/2)-45
+    this.y = canvas.height-73
     this.game = true
   }
-
-  /*move(up, down, left, right) {
-    const canvas = this.canvas;
-    if (this.x < 0 || this.x > canvas.width || this.y > canvas.height || this.y < 0) {
-      gamestate = "gameover";
-      this.game = false;
-    }
-    this.x -= left;
-    this.x += right;
-    this.y += down;
-    this.y -= up;
-  }*/
 
   draw() {
     ctx.save()
     ctx.translate(this.x, this.y)
-    ctx.drawImage(this.image, 0, 0)
+    ctx.drawImage(this.image, 0, 0, 90, 73)
+    ctx.restore()
+  }
+}
+
+class Turret {
+  constructor() {
+    this.canvas = document.getElementById("canvas");
+    this.image = new Image();
+    this.image.src = "img/turret.png";
+
+    this.x = (canvas.width/2)-14
+    this.y = canvas.height-115
+    this.game = true
+  }
+
+  draw(otoc) {
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.rotate(otoc)
+    ctx.drawImage(this.image, 0, 0, 28, 64)
     ctx.restore()
   }
 }
@@ -136,14 +146,13 @@ class Crosshair {
   }
 }
 
-cross = new Crosshair(42,42);
+cross = new Crosshair(21,21);
 
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
-  if (cross.switch) {
-    cross.draw(x-20, y-20);
-  }
+  cross_x = x;
+  cross_y = y;
 };
 
 canvas.onclick = function(event) {
@@ -217,6 +226,7 @@ heliSound = new sound("sounds/helicopter.wav");
 //para = new Paratrooper();
 heli = new Heli();
 player = new Player();
+turret = new Turret();
 
 //paratroopers.push(para);
 objects.push(heli);
