@@ -2,9 +2,11 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 var keys = {};
-var objects = {};
+var objects = [];
+var paratroopers = [];
+var time = 0;
 
-var gamestate = "menu";
+var gamestate = "game";
 
 class Button {
   constructor(x, y, width, height, color, text) {
@@ -34,23 +36,24 @@ class Paratrooper {
     this.image = new Image();
     this.image.src = "img/paratrooper.png";
 
-    this.x = Math.random() * canvas.width
+    this.x = Math.floor(Math.random() * canvas.width-80)+80
     this.y = 0
+    this.offBound = 0
   }
 
   move() {
     const canvas = this.canvas;
     if (this.y > canvas.height) {
-      this.y -= canvas.height
+      this.offBound = 1
     }
 
-    this.y += 5
+    this.y += 1
   }
 
   draw() {
     ctx.save()
     ctx.translate(this.x, this.y)
-    ctx.drawImage(this.image, 0, 0, 120, 160)
+    ctx.drawImage(this.image, 0, -60, 60, 80)
     ctx.restore()
   }
 }
@@ -93,7 +96,7 @@ class Player {
     this.game = true
   }
 
-  move(up, down, left, right) {
+  /*move(up, down, left, right) {
     const canvas = this.canvas;
     if (this.x < 0 || this.x > canvas.width || this.y > canvas.height || this.y < 0) {
       gamestate = "gameover";
@@ -103,7 +106,7 @@ class Player {
     this.x += right;
     this.y += down;
     this.y -= up;
-  }
+  }*/
 
   draw() {
     ctx.save()
@@ -112,17 +115,6 @@ class Player {
     ctx.restore()
   }
 }
-//objekty (zatial)
-
-para = new Paratrooper();
-heli = new Heli();
-player = new Player();
-
-//cross = new Image();
-//cross.src = "img/crosshair.png";
-
-bg = new Image();
-bg.src = "img/background.png";
 
 //mys
 class Crosshair {
@@ -221,44 +213,20 @@ function sound(src) {
 heliSound = new sound("sounds/helicopter.wav");
 
 
-//renderovanie objektov
-function animate() {
-  if (gamestate == "menu") {
-    play = new Button(150, 200, 100, 50, "red", "Play Game")
-    settings = new Button(150, 300, 100, 50, "red", "Settings")
-    play.draw()
-    settings.draw()
-  }
-  if (gamestate == "settings") {
-    crosshair = new Button(150, 200, 100, 50, "red", "Crosshair: On")
-    sound = new Button(150, 300, 100, 50, "red", "Sounds: On")
-    crosshair.draw()
-    sound.draw()
-  }
-  if (gamestate == "game"){
-    heliSound.play();
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.drawImage(bg, 0, 0)
-    para.draw()
-    para.move()
-    heli.draw()
-    heli.move()
-    player.draw()
-    if (player.game){
-      requestAnimationFrame(animate)
-    }
-  }
-  if (gamestate == "gameover") {
-    gameover()
-  }
-};
+//nacitanie objektov
+//para = new Paratrooper();
+heli = new Heli();
+player = new Player();
 
-function gameover() {
-  ctx.fillStyle = "red";
-  ctx.fillRect(150, 200, 100, 50);
-  ctx.fillStyle = "black";
-  ctx.font = "20px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText("Play Again", 200, 230);
-}
-animate();
+//paratroopers.push(para);
+objects.push(heli);
+
+console.log(objects);
+
+//generovanie objektov
+
+//cross = new Image();
+//cross.src = "img/crosshair.png";
+
+bg = new Image();
+bg.src = "img/background.png";
