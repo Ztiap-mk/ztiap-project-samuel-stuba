@@ -1,51 +1,85 @@
+var index;
+
 canvas.onmousemove = function(event) {
   var x = event.clientX - canvas.offsetLeft;
   var y = event.clientY - canvas.offsetTop;
   cross_x = x;
   cross_y = y;
-  //console.log(x, y);
-  //console.log(turret.x, turret.y);
 };
 
 canvas.onclick = function(event) {
   var x = event.pageX - canvas.offsetLeft
   var y = event.pageY - canvas.offsetTop
+  var i;
   if (gamestate == "game")
   {
     proj = new Projectile(turret.x, turret.y, 6, 14, otoc_proj, cross_x, cross_y)
     projectiles.push(proj)
     vystrelil = 1
+    gunshot.play();
   }
-  if (gamestate == "gameover")
-  {
-    if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
-      gamestate = "game"
-      animate()
+  if (gamestate == "gameover") {
+      for (index of over_obj) {
+        if (x >= index.x && x <= index.x+index.width && y >= index.y && y <= index.y+index.height) {
+          if (index == retry) {
+            gamestate = "game";
+            time = 0
+            hp = 3
+            score = 0
+            paratroopers = []
+            projectiles = []
+            diff = 0
+            helis = []
+            animate();
+          }
+          if (index == exit) {
+            window.close()
+          }
+        }
+      }
+    }
+    if (gamestate == "main") {
+        for (index of main_obj) {
+          if (x >= index.x && x <= index.x+index.width && y >= index.y && y <= index.y+index.height) {
+            if (index == play) {
+              gamestate = "game"
+              animate()
+            }
+            if (index == menu) {
+              console.log("klik")
+              gamestate = "menu"
+              menu()
+            }
+            if (index == exit) {
+              window.close()
+            }
+          }
+        }
+      }
+  if (gamestate == "menu") {
+      for (index of menu_obj)
+      {
+        if (x >= index.x && x <= index.x+index.width && y >= index.y && y <= index.y+index.height) {
+          if (index == back) {
+            gamestate = "main";
+            main();
+          }
+          if (index == cross_on) {
+            crosshair_on = 0;
+          }
+          if (index == cross_off) {
+            crosshair_on = 1;
+          }
+          if (index == sound_off) {
+            sound = 1;
+          }
+          if (index == sound_on) {
+            sound = 0;
+          }
+        }
+      }
     }
   }
-
-  if (gamestate == "menu")
-  {
-    if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
-      gamestate = "game"
-      animate()
-    }
-    if ((x >= 150 && x <= 150 + 100) && (y >= 300 && y <= 300 + 50)) {
-      gamestate = "settings"
-      animate()
-    }
-  }
-
-  if (gamestate == "settings")
-  {
-    if ((x >= 150 && x <= 150 + 100) && (y >= 200 && y <= 200 + 50)) {
-      cross.switch = false
-    }
-    if ((x >= 150 && x <= 150 + 100) && (y >= 300 && y <= 300 + 50)) {
-      heliSound.stop()
-    }
-  }
-}
 
 //klavesnica
 window.onkeydown = function(event) {

@@ -4,16 +4,26 @@ var ctx = canvas.getContext("2d");
 //projektil vykreslovat po priamke
 
 var keys = {};
-var objects = [];
+var helis = [];
+var main_obj = [];
+var menu_obj = [];
+var over_obj = [];
 var paratroopers = [];
 var projectiles = [];
+var hp_package = [];
+var bombs = [];
 var time = 0;
 var cross_x = 0;
 var cross_y = 0;
 var otoc_proj;
 var vystrelil = 0;
+var hp = 3;
+var score = 0;
+var sound = 1;
+var crosshair_on = 1;
+var diff = 0;
 
-var gamestate = "game";
+var gamestate = "main";
 
 class Object {
   constructor(x, y, width, height, src) {
@@ -51,7 +61,7 @@ class Projectile {
   }
   move() {
     const canvas = this.canvas;
-    if (this.y <= 0 || (this.x < 0 || this.x > canvas.width)) {
+    if (this.y <= 70 || (this.x < 0 || this.x > canvas.width)) {
       this.offBound = 1
     }
     this.y -= (canvas.height-turret.y)/50
@@ -74,7 +84,7 @@ class Paratrooper {
     this.image.src = "img/paratrooper.png";
 
     this.x = Math.floor(Math.random() * canvas.width-80)+80
-    this.y = 0
+    this.y = 70
     this.offBound = 0
   }
 
@@ -82,6 +92,7 @@ class Paratrooper {
     const canvas = this.canvas;
     if (this.y > canvas.height) {
       this.offBound = 1
+      hp--;
     }
 
     this.y += 1
@@ -89,7 +100,7 @@ class Paratrooper {
 
   draw() {
     ctx.save()
-    ctx.translate(this.x, this.y-60)
+    ctx.translate(this.x, this.y)
     ctx.drawImage(this.image, 0, 0, 60, 80)
     ctx.restore()
   }
@@ -101,23 +112,59 @@ class Heli {
     this.image = new Image();
     this.image.src = "img/heli.png";
 
-    this.x = canvas.width
-    this.y = 10
+    this.x = 0
+    this.y = 70
+    this.vector = 1
+    this.offBound = 0
   }
 
   move() {
     const canvas = this.canvas;
-    if (this.x < 0) {
-      this.x += canvas.width
+    if (this.x < 0 || this.x > canvas.width) {
+      this.vector = this.vector*(-1)
     }
 
-    this.x -= 5
+    this.x += 1*this.vector
   }
+
+  /*drop_bomb(){
+    bomb = new Bomb(this.x+70)
+    bombs.push(bomb)
+  }*/
 
   draw() {
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.drawImage(this.image, 0, 0, 157, 45)
+    ctx.restore()
+  }
+}
+
+class Bomb {
+  constructor(x) {
+    this.canvas = document.getElementById("canvas");
+    this.image = new Image();
+    this.image.src = "img/bomb.png";
+
+    this.x = x
+    this.y = 80
+    this.offBound = 0
+  }
+
+  move() {
+    const canvas = this.canvas;
+    if (this.y > canvas.height) {
+      this.offBound = 1
+      hp--;
+    }
+
+    this.y += 1
+  }
+
+  draw() {
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.drawImage(this.image, 0, 0, 80, 36)
     ctx.restore()
   }
 }
@@ -181,14 +228,76 @@ class Crosshair {
   }
 }
 
+class Health {
+  constructor() {
+    this.canvas = document.getElementById("canvas");
+    this.image = new Image();
+    this.image.src = "img/health-up.png";
+
+    this.x = Math.floor(Math.random() * canvas.width-80)+80
+    this.y = 70
+    this.offBound = 0
+  }
+
+  move() {
+    const canvas = this.canvas;
+    if (this.y > canvas.height) {
+      this.offBound = 1;
+    }
+
+    this.y += 1
+  }
+
+  draw() {
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.drawImage(this.image, 0, 0, 117, 120)
+    ctx.restore()
+  }
+}
+
+
 cross = new Crosshair(21,21);
 
 //nacitanie objektov
-heli = new Heli();
 player = new Player();
 turret = new Turret("img/turret.png");
 turret_fire = new Turret("img/turret_fire.png")
+health = new Object(5,5,72,56,"img/health.png")
 
 //pozadie
 bg = new Image();
 bg.src = "img/background.png";
+
+//main
+banner = new Object(0,0,600,130,"img/paratrooper_banner.png");
+play = new Object(160,150,280,130, "img/play.png");
+menu = new Object(160,300,280,130, "img/menu.png");
+exit = new Object(160,450,280,130, "img/exit.png");
+
+main_obj.push(banner)
+main_obj.push(play)
+main_obj.push(menu)
+main_obj.push(exit)
+
+//menu
+cross_on = new Object(0,150,600,130, "img/cross_on.png");
+cross_off = new Object(0,150,600,130, "img/cross_off.png");
+sound_on = new Object(55,300,490,130, "img/sound_on.png");
+sound_off = new Object(55,300,490,130, "img/sound_off.png");
+back = new Object(160,450,280,130, "img/back.png");
+
+menu_obj.push(cross_on)
+//menu_obj.push(cross_off)
+menu_obj.push(sound_on)
+//menu_obj.push(sound_off)
+menu_obj.push(back)
+
+//gameover
+game_over = new Object(35,150,530,210, "img/game_over.png");
+retry = new Object(130,380,340,130, "img/retry.png");
+exit = new Object(160,530,280,130, "img/exit.png");
+
+over_obj.push(game_over)
+over_obj.push(retry)
+over_obj.push(exit)

@@ -15,3 +15,8 @@ function sound(src) {
 }
 
 heliSound = new sound("sounds/helicopter.wav");
+gunshot = new sound("sounds/gunshot.mp3")
+para_death = new sound("sounds/paratrooper-death.wav")
+damage = new sound("sounds/turret-damage.mp3")
+gameover_s = new sound("sounds/game_over.wav")
+hp_up = new sound("sounds/hp_up.wav")
