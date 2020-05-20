@@ -1,16 +1,6 @@
 //renderovanie objektov
+
 function animate() {
-  if (gamestate == "menu") {
-    play = new Button(150, 200, 100, 50, "red", "Play Game")
-    settings = new Button(150, 300, 100, 50, "red", "Settings")
-    play.draw()
-    settings.draw()
-  }
-  if (gamestate == "settings") {
-    crosshair = new Button(150, 200, 100, 50, "red", "Crosshair: On")
-    sound = new Button(150, 300, 100, 50, "red", "Sounds: On")
-    crosshair.draw()
-    sound.draw()
   }
   if (gamestate == "game"){
     //heliSound.play();
@@ -36,13 +26,34 @@ function animate() {
       }
     }
 
-    var dx = cross_x-turret.x,
-    dy = cross_y-turret.y
-    otoc = Math.atan2(dy, dx)+1.5
+    var proj_i = 0;
 
-    console.log(otoc)
+    for (i of projectiles) {
+      var para_i = 0;
+      if (i.offBound == 1) {
+        projectiles.shift();
+      }
+      for (j of paratroopers) {
+        if (i.x >= j.x+10 && i.x <= j.x+50 && i.y >= j.y+10 && i.y <= j.y+70){
+          projectiles.splice(proj_i, 1);
+          paratroopers.splice(para_i, 1);
+        }
+        para_i++;
+      }
+      i.draw();
+      i.move();
+      proj_i++;
+    }
+
+    //vypocitanie uhla na otacanie dela
+    var dx = cross_x-turret.x-14, dy = turret.y+60 - cross_y
+    otoc = (Math.atan2(dy, dx)*(180/Math.PI)*-1)+90
+    otoc_proj = otoc
 
     turret.draw(otoc)
+    if (vystrelil == 1)
+      turret_fire.draw(otoc);
+    vystrelil = 0
     player.draw()
     cross.draw(cross_x-10, cross_y-10)
 
